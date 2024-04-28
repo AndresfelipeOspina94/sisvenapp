@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pay_modes', function (Blueprint $table) {
+        Schema::create('metodos_pagos', function (Blueprint $table) {
             $table->increments('metodo_pago_id');
             $table->string('metodo_pago_nombre', 50);
             $table->string('metodo_pago_observacion', 50);
