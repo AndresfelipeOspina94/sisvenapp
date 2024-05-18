@@ -13,8 +13,8 @@
 </head>
 <body>
 <div class="container">
-    <h1>Editar Producto</h1>
-    <form method="POST" action="{{ route('productos.update', $producto->producto_id) }}">
+    <h1 class="my-4">Editar Producto</h1>
+    <form method="POST" action="{{ route('producto.update', $producto->producto_id) }}">
         @csrf
         @method('PUT')
         <div class="mb-3">
@@ -26,7 +26,7 @@
             <label for="inputCategoria" class="form-label">Categoría</label>
             <select class="form-select" id="inputCategoria" name="categoria_id">
                 @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->Categoria_Id }}" @if($categoria->Categoria_Id == $producto->categoria_id) selected @endif>{{ $categoria->Category_Nombre }}</option>
+                    <option value="{{ $categoria->categoria_id }}" @if($categoria->categoria_id == $producto->categoria_id) selected @endif>{{ $categoria->categoria_nombre }}</option>
                 @endforeach
             </select>
         </div>
@@ -35,7 +35,7 @@
             <label for="inputProveedor" class="form-label">Proveedor</label>
             <select class="form-select" id="inputProveedor" name="proveedor_id">
                 @foreach($proveedores as $proveedor)
-                    <option value="{{ $proveedor->Proveedor_Id }}" @if($proveedor->Proveedor_Id == $producto->proveedor_id) selected @endif>{{ $proveedor->Proveedor_Nombre }}</option>
+                    <option value="{{ $proveedor->proveedor_id }}" @if($proveedor->proveedor_id == $producto->proveedor_id) selected @endif>{{ $proveedor->proveedor_nombre }}</option>
                 @endforeach
             </select>
         </div>
@@ -52,7 +52,7 @@
 
         <div class="mt-3">
             <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-            <a href="{{ route('productos.index') }}" class="btn btn-warning">Cancelar</a>
+            <a href="{{ route('producto.index') }}" class="btn btn-warning">Cancelar</a>
         </div>
     </form>
 </div>
