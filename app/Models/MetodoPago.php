@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class MetodoPago extends Model
 {
-    protected $table = 'Metodos_Pagos';
-    protected $primaryKey = 'Metodo_Pago_Id';
+    protected $table = 'metodos_pagos';
+    protected $primaryKey = 'metodo_pago_id';
     public $timestamps = false;
 
-    protected $fillable = ['Metodo_Pago_Nombre', 'Metodo_Pago_Observacion'];
+    protected $fillable = ['metodo_pago_nombre', 'metodo_pago_observacion'];
 
 
 }
