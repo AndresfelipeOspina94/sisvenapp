@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Categoria extends Model
 {
-    protected $table = 'categorias';
-    protected $primaryKey = 'categoria_Id';
-    public $timestamps = false;
-    protected $fillable = ['categoria_nombre', 'categoria_descripcion'];
+    use HasFactory;
 
-    public function productos()
-    {
-        return $this->hasMany(Producto::class, 'categoria_id');
-    }
+    protected $table = 'categorias';
+    protected $primaryKey = 'categoria_id';
+
+    protected $fillable = [
+        'categoria_nombre',
+        'categoria_descripcion',
+    ];
 }

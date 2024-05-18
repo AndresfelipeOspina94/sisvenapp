@@ -13,12 +13,11 @@ class ProductoController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        
-        $productos = Producto::with('Categoria', 'Proveedor')->get();
+        $productos = Producto::with('categoria', 'proveedor')->get();
         return view('producto.index', ['productos' => $productos]);
     }
 
@@ -44,24 +43,22 @@ class ProductoController extends Controller
             'precio_producto' => 'required|numeric',
             'cantidad_stock' => 'required|integer',
         ]);
+
         try {
-        
-        $producto = new Producto([
-            'producto_name' => $request->get('producto_name'),
-            'categoria_id' => $request->get('categoria_id'),
-            'proveedor_id' => $request->get('proveedor_id'),
-            'precio_producto' => $request->get('precio_producto'),
-            'cantidad_stock' => $request->get('cantidad_stock'),
-        ]);
+            $producto = new Producto([
+                'producto_name' => $request->get('producto_name'),
+                'categoria_id' => $request->get('categoria_id'),
+                'proveedor_id' => $request->get('proveedor_id'),
+                'precio_producto' => $request->get('precio_producto'),
+                'cantidad_stock' => $request->get('cantidad_stock'),
+            ]);
 
-        $producto->save();
-} catch (\Exception $e) {
-    // Registrar el error
-    \Log::error($e->getMessage());
-
-    // Redirigir con un mensaje de error
-    return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo guardar el producto.']);
-}
+            $producto->save();
+            return redirect()->route('producto.index')->with('success', 'Producto creado correctamente');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo guardar el producto.']);
+        }
     }
 
     /**
@@ -80,7 +77,7 @@ class ProductoController extends Controller
         $producto = Producto::findOrFail($id);
         $categorias = Categoria::all();
         $proveedores = Proveedor::all();
-        return view('producto.edit', compact('producto', 'categorias', 'proveedores'));    
+        return view('producto.edit', compact('producto', 'categorias', 'proveedores'));
     }
 
     /**
@@ -95,16 +92,21 @@ class ProductoController extends Controller
             'precio_producto' => 'required|numeric',
             'cantidad_stock' => 'required|integer',
         ]);
-    
-        $producto = Producto::findOrFail($id);
-        $producto->producto_name = $request->producto_name;
-        $producto->categoria_id = $request->categoria_id;
-        $producto->proveedor_id = $request->proveedor_id;
-        $producto->precio_producto = $request->precio_producto;
-        $producto->cantidad_stock = $request->cantidad_stock;
-        $producto->save();
-    
-        return redirect()->route('productos.index')->with('success', 'Producto actualizado correctamente');        
+
+        try {
+            $producto = Producto::findOrFail($id);
+            $producto->producto_name = $request->producto_name;
+            $producto->categoria_id = $request->categoria_id;
+            $producto->proveedor_id = $request->proveedor_id;
+            $producto->precio_producto = $request->precio_producto;
+            $producto->cantidad_stock = $request->cantidad_stock;
+            $producto->save();
+
+            return redirect()->route('producto.index')->with('success', 'Producto actualizado correctamente');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo actualizar el producto.']);
+        }
     }
 
     /**
@@ -114,9 +116,9 @@ class ProductoController extends Controller
     {
         try {
             Producto::findOrFail($id)->delete();
-            return redirect()->route('productos.index')->with('success', 'Producto eliminado correctamente');
+            return redirect()->route('producto.index')->with('success', 'Producto eliminado correctamente');
         } catch (QueryException $e) {
-            return redirect()->route('productos.index')->with('error', 'No se puede eliminar el producto porque está asociado a una o varias reservas');
+            return redirect()->route('producto.index')->with('error', 'No se puede eliminar el producto porque está asociado a otros registros.');
         }
     }
 }

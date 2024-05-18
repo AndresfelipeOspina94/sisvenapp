@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Nuevo Producto</h1>
+    <h1 class="my-4">Nuevo Producto</h1>
     <form method="POST" action="{{ route('producto.store') }}">
         @csrf
         <div class="mb-3">
@@ -24,9 +24,9 @@
         <div class="mb-3">
             <label for="inputCategoria" class="form-label">Categoría</label>
             <select class="form-select" id="inputCategoria" name="categoria_id">
-                <option selected>Seleccione un Categoria...</option>
+                <option selected>Seleccione una Categoría...</option>
                 @foreach($categorias as $categoria)
-                    <option value="{{ $categoria->categoria_Id }}">{{ $categoria->categoria_nombre }}</option>
+                    <option value="{{ $categoria->categoria_id }}">{{ $categoria->categoria_nombre }}</option>
                 @endforeach
             </select>
         </div>
@@ -36,7 +36,7 @@
             <select class="form-select" id="inputProveedor" name="proveedor_id">
                 <option selected>Seleccione un Proveedor...</option>                
                 @foreach($proveedores as $proveedor)
-                    <option value="{{ $proveedor->proveedor_Id }}">{{ $proveedor->proveedor_nombre }}</option>
+                    <option value="{{ $proveedor->proveedor_id }}">{{ $proveedor->proveedor_nombre }}</option>
                 @endforeach
             </select>
         </div>

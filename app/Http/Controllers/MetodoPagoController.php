@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\MetodoPago;
+use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 class MetodoPagoController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -31,27 +33,22 @@ class MetodoPagoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Metodo_Pago_Nombre' => 'required',
-            'Metodo_Pago_Observacion' => 'required',
+            'metodo_pago_nombre' => 'required',
+            'metodo_pago_observacion' => 'required',
         ]);
 
+        try {
+            $metodo_pago = new MetodoPago([
+                'metodo_pago_nombre' => $request->get('metodo_pago_nombre'),
+                'metodo_pago_observacion' => $request->get('metodo_pago_observacion'),
+            ]);
 
-        $metodo_pago = new MetodoPago([
-            'Metodo_Pago_Nombre' => $request->get('Metodo_Pago_Nombre'),
-            'Metodo_Pago_Observacion' => $request->get('Metodo_Pago_Observacion'),
-        ]);
-
-        $metodo_pago->save();
-    
-        return redirect()->route('metodo_pago.index')->with('success', 'Metodo de pago creado correctamente');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+            $metodo_pago->save();
+            return redirect()->route('metodo_pago.index')->with('success', 'Método de Pago creado correctamente');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo guardar el Método de Pago.']);
+        }
     }
 
     /**
@@ -59,8 +56,8 @@ class MetodoPagoController extends Controller
      */
     public function edit(string $id)
     {
-        $metodos_pagos = MetodoPago::findOrFail($id);
-        return view('metodo_pago.edit', compact('metodos_pagos'));  
+        $metodo_pago = MetodoPago::findOrFail($id);
+        return view('metodo_pago.edit', compact('metodo_pago'));
     }
 
     /**
@@ -69,16 +66,21 @@ class MetodoPagoController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'Metodo_Pago_Nombre' => 'required',
-            'Metodo_Pago_Observacion' => 'required',
+            'metodo_pago_nombre' => 'required',
+            'metodo_pago_observacion' => 'required',
         ]);
-    
-        $metodos_pagos = MetodoPago::findOrFail($id);
-        $metodos_pagos->metodo_pago_nombre = $request->metodo_pago_nombre;
-        $metodos_pagos->metodo_pago_observacion = $request->metodo_pago_observacion;
-        $metodos_pagos->save();
-    
-        return redirect()->route('metodo_pago.index')->with('success', 'Metodo de pago actualizado correctamente'); 
+
+        try {
+            $metodo_pago = MetodoPago::findOrFail($id);
+            $metodo_pago->metodo_pago_nombre = $request->metodo_pago_nombre;
+            $metodo_pago->metodo_pago_observacion = $request->metodo_pago_observacion;
+            $metodo_pago->save();
+
+            return redirect()->route('metodo_pago.index')->with('success', 'Método de Pago actualizado correctamente');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return redirect()->back()->withInput()->withErrors(['error' => 'No se pudo actualizar el Método de Pago.']);
+        }
     }
 
     /**
@@ -87,12 +89,10 @@ class MetodoPagoController extends Controller
     public function destroy(string $id)
     {
         try {
-            // Cargar el registro antes de eliminar
-                MetodoPago::findOrFail($id)->delete();
-                return redirect()->route('metodo_pago.index')->with('success', 'Producto eliminado correctamente');
-
+            MetodoPago::findOrFail($id)->delete();
+            return redirect()->route('metodo_pago.index')->with('success', 'Método de Pago eliminado correctamente');
         } catch (QueryException $e) {
-            return redirect()->route('metodo_pago.index')->with('error', 'No se puede eliminar el metodo de pago - Intente de nuevo');
+            return redirect()->route('metodo_pago.index')->with('error', 'No se puede eliminar el Método de Pago porque está asociado a otros registros.');
         }
     }
 }
