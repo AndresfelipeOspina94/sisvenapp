@@ -9,22 +9,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Editar Metodo de Pago</title>
+    <title>Editar Método de Pago</title>
 </head>
 <body>
 <div class="container">
-    <h1>Editar Metodo de Pago</h1>
-    <form method="POST" action="{{ route('metodo_pago.update', $metodos_pagos->metodo_pago_id) }}">
+    <h1 class="my-4">Editar Método de Pago</h1>
+    <form method="POST" action="{{ route('metodo_pago.update', $metodo_pago->metodo_pago_id) }}">
         @csrf
         @method('PUT')
         <div class="mb-3">
-            <label for="inputNombre" class="form-label">Nombre del Metodo de Pago</label>
-            <input type="text" class="form-control" id="inputNombre" name="metodo_pago_nombre" value="{{ $metodos_pagos->metodos_pago_nombre }}">
+            <label for="inputNombre" class="form-label">Nombre del Método de Pago</label>
+            <input type="text" class="form-control" id="inputNombre" name="metodo_pago_nombre" value="{{ $metodo_pago->metodo_pago_nombre }}">
         </div>
 
         <div class="mb-3">
-            <label for="inputObservaciones" class="form-label">Obervaciones</label>
-            <input type="text" class="form-control" id="inputObservaciones" name="inputObservaciones" value="{{ $metodos_pagos->metodo_pago_observaciones }}">
+            <label for="inputObservacion" class="form-label">Observación</label>
+            <textarea class="form-control" id="inputObservacion" name="metodo_pago_observacion">{{ $metodo_pago->metodo_pago_observacion }}</textarea>
         </div>
 
         <div class="mt-3">

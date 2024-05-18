@@ -9,25 +9,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <title>Nuevo Metodo de Pago</title>
+    <title>Nuevo Método de Pago</title>
 </head>
 <body>
 <div class="container">
-    <h1>Nuevo Metodo de Pago</h1>
+    <h1 class="my-4">Nuevo Método de Pago</h1>
     <form method="POST" action="{{ route('metodo_pago.store') }}">
         @csrf
         <div class="mb-3">
-            <label for="inputNombre" class="form-label">Nombre del Metodo de Pago</label>
+            <label for="inputNombre" class="form-label">Nombre del Método de Pago</label>
             <input type="text" class="form-control" id="inputNombre" name="metodo_pago_nombre">
         </div>
 
         <div class="mb-3">
-            <label for="inputObservacion" class="form-label">Observaciones</label>
-            <input type="text" class="form-control" id="inputObservacion" name="metodo_pago_observacion">
+            <label for="inputObservacion" class="form-label">Observación</label>
+            <textarea class="form-control" id="inputObservacion" name="metodo_pago_observacion"></textarea>
         </div>
 
         <div class="mt-3">
-            <button type="submit" class="btn btn-primary">Guardar Metodo de Pago</button>
+            <button type="submit" class="btn btn-primary">Guardar Método de Pago</button>
             <a href="{{ route('metodo_pago.index') }}" class="btn btn-warning">Cancelar</a>
         </div>
     </form>
